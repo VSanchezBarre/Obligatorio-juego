@@ -119,89 +119,6 @@ public class JuegoMain {
         return tablero;
     }
 
-    public static void imprimirTablero(int[][] unTablero) {
-        for (int[] unTablero1 : unTablero) {
-            for (int j = 0; j < unTablero[0].length; j++) {
-                System.out.print(unTablero1[j] + " ");
-            }
-            System.out.println();
-        }
-
-    }
-
-    public static int[][] movimientoRojoParm(int[][] unTablero, String mov) {
-        int[][] tablero = unTablero;
-        String in = mov;
-        String result = in.replaceAll("[^0-9]+", "");
-        int resultado = Integer.parseInt(result);
-        int posicioni = 0;
-        int posicionj = 0;
-        int posicioniNueva = 0;
-        int posicionjNueva = 0;
-        if (in.contains("D")) {
-            for (int i = 2; i < tablero.length; i++) {
-                for (int j = 0; j < tablero[0].length; j++) {
-                    if (tablero[i][j] == resultado) {
-                        posicioni = i;
-                        posicionj = j;
-                    }
-
-                }
-
-            }
-            posicioniNueva = posicioni - 1;
-            posicionjNueva = posicionj + 1;
-
-            tablero[posicioniNueva][posicionjNueva] = tablero[posicioni][posicionj];
-            tablero[posicioni][posicionj] = 0;
-
-        }
-
-        if (in.contains("A")) {
-            for (int i = 2; i < tablero.length; i++) {
-                for (int j = 0; j < tablero[0].length; j++) {
-                    if (tablero[i][j] == resultado) {
-                        posicioni = i;
-                        posicionj = j;
-                    }
-
-                }
-
-            }
-
-            System.out.println(posicioni + " " + posicionj);
-            System.out.println(tablero[posicioni][posicionj]);
-            tablero[posicioni - 1][posicionj] = tablero[posicioni][posicionj];
-            tablero[posicioni][posicionj] = 0;
-        }
-
-        if (in.contains("I")) {
-            for (int i = 2; i < tablero.length; i++) {
-                for (int j = 0; j < tablero[0].length; j++) {
-                    if (tablero[i][j] == resultado) {
-                        posicioni = i;
-                        posicionj = j;
-                    }
-
-                }
-
-            }
-
-            System.out.println(posicioni + " " + posicionj);
-            System.out.println(tablero[posicioni][posicionj]);
-
-            if (posicionj != 0) {
-                tablero[posicioni - 1][posicionj - 1] = tablero[posicioni][posicionj];
-                tablero[posicioni][posicionj] = 0;
-
-            } else {
-                System.out.println("No se puede hacer el movimiento");
-            }
-
-        }
-        return tablero;
-    }
-
     public static void setearPosiciones(Ficha ficha, int numficha, int posicioninueva, int posicionjnueva) {
         int[] nuevasposicionesi = ficha.getPosicionesi();
         int[] nuevasposicionesj = ficha.getPosicionesj();
@@ -214,13 +131,50 @@ public class JuegoMain {
 
     public static int[][] movimiento(int[][] unTablero, int[] fichasiinvalidas, int[] fichasjinvalidas, int color, int[] fichasvalidas, int[] fichasjvalidas, Ficha ficha, Partida partida) {
         int[][] tablero = unTablero;
+        boolean ver = false;
         if (color == 0) {
-            boolean turno = true;
-            while (turno) {
+            boolean pasar = false;
+            boolean esPosible = true;
+            while (esPosible) {
                 System.out.println("Jugador rojo, eliga un movimiento");
                 String in;
                 Scanner intro = new Scanner(System.in);
                 in = intro.nextLine();
+                if (in.length() == 4) {
+                    if (in.equals("VERR")) {
+                        ver = false;
+                    }
+                    if (in.equals("VERN")) {
+                        ver = true;
+                    }
+
+                }
+                if (!pasar) {
+                    if (in.length() == 1) {
+                        if (in.equals("p")) {
+                            System.out.println("Necesita hacer un movimiento para poder pasar");
+                        } else {
+                            System.out.println("Valor no valido, ingrese denuevo");
+                        }
+                    }
+                }
+
+                if (pasar) {
+                    if (in.length() == 1) {
+                        if (in.equals("p")) {
+                        } else {
+                            System.out.println("Valor no valido, ingrese denuevo");
+                        }
+                    }
+                }
+
+                if (in.length() == 3) {
+                    System.out.println("Palabra incorrecta");
+                }
+
+                if (in.length() > 4) {
+                    System.out.println("Palabra incorrecta");
+                }
                 String result = in.replaceAll("[^0-9]+", "");
                 int resultado = Integer.parseInt(result);
                 int posicioni = 0;
@@ -228,6 +182,7 @@ public class JuegoMain {
                 int posicioniNueva = 0;
                 int posicionjNueva = 0;
                 if (in.contains("D")) {
+
                     int[] posiciones = recorrerMatrizValida(tablero, fichasiinvalidas, fichasjinvalidas, resultado);
                     posicioni = posiciones[0];
                     posicionj = posiciones[1];
@@ -240,13 +195,18 @@ public class JuegoMain {
                         setearPosiciones(ficha, resultado, posicioniNueva, posicionjNueva);
                         partida.getListaMovimientos().add(in);
                         partida.getColores().add(color);
-                        imprimirTablero(tablero);
+                        imprimir(tablero, ver);
                     } else {
                         System.out.println("La posicion a donde desea moverse ya esta ocupada");
                     }
+
+                    esPosible = posiblesMovimientos(posicioniNueva, posicionjNueva, tablero);
+                    pasar = true;
+
                 }
 
                 if (in.contains("A")) {
+
                     int[] posiciones = recorrerMatrizValida(tablero, fichasiinvalidas, fichasjinvalidas, resultado);
                     posicioni = posiciones[0];
                     posicionj = posiciones[1];
@@ -256,8 +216,9 @@ public class JuegoMain {
                         setearPosiciones(ficha, resultado, posicioni - 1, posicionj);
                         partida.getListaMovimientos().add(in);
                         partida.getColores().add(color);
-                        imprimirTablero(tablero);
-                        posiblesMovimientos(posicioni, posicionj, tablero);
+                        imprimir(tablero, ver);
+                        esPosible = posiblesMovimientos(posicioni, posicionj, tablero);
+                        pasar = true;
                     } else {
                         System.out.println("Este movimiento no es posible, porque ya esta ocupado");
                     }
@@ -269,25 +230,67 @@ public class JuegoMain {
                     posicionj = posiciones[1];
                     if (posicionj != 0 && tablero[posicioni - 1][posicionj - 1] == 0) {
                         tablero[posicioni - 1][posicionj - 1] = tablero[posicioni][posicionj];
+                        System.out.println(tablero[posicioni-1][posicionj-1]);
                         tablero[posicioni][posicionj] = 0;
                         setearPosiciones(ficha, resultado, posicioni - 1, posicionj - 1);
+                        System.out.println("Setear ta bien");
                         partida.getListaMovimientos().add(in);
+                        System.out.println("Agregar a la lista ta bien");
                         partida.getColores().add(color);
-                        imprimirTablero(tablero);
+                        System.out.println("Agregar color a la lista ta bien");
+                        esPosible = posiblesMovimientos(posicioni - 1, posicionj - 1, tablero);
+                        System.out.println("Posibles movimientos ta bien");
+                        pasar = true;
+                        imprimir(tablero, ver);
                     } else {
                         System.out.println("No se puede hacer el movimiento");
                     }
 
                 }
-                turno = posiblesMovimientos(posicioni, posicionj, tablero);
             }
         } else {
             boolean turno = true;
+            boolean pasar = false;
             while (turno) {
                 System.out.println("Jugador azul, eliga un movimiento");
                 String in;
                 Scanner intro = new Scanner(System.in);
                 in = intro.nextLine();
+                if (in.length() == 4) {
+                    if (in.equals("VERR")) {
+                        ver = false;
+                    }
+                    if (in.equals("VERN")) {
+                        ver = true;
+                    }
+
+                }
+                if (!pasar) {
+                    if (in.length() == 1) {
+                        if (in.equals("p")) {
+                            System.out.println("Necesita hacer un movimiento para poder pasar");
+                        } else {
+                            System.out.println("Valor no valido, ingrese denuevo");
+                        }
+                    }
+                }
+
+                if (pasar) {
+                    if (in.length() == 1) {
+                        if (in.equals("p")) {
+                        } else {
+                            System.out.println("Valor no valido, ingrese denuevo");
+                        }
+                    }
+                }
+
+                if (in.length() == 3) {
+                    System.out.println("Palabra incorrecta");
+                }
+
+                if (in.length() > 4) {
+                    System.out.println("Palabra incorrecta");
+                }
                 String result = in.replaceAll("[^0-9]+", "");
                 int resultado = Integer.parseInt(result);
                 int posicioni = 0;
@@ -307,11 +310,13 @@ public class JuegoMain {
                         setearPosiciones(ficha, resultado, posicioniNueva, posicionjNueva);
                         partida.getListaMovimientos().add(in);
                         partida.getColores().add(color);
-                        imprimirTablero(tablero);
-                        posiblesMovimientos(posicioniNueva, posicionjNueva, tablero);
+                        imprimir(tablero, ver);
+                        turno = posiblesMovimientos(posicioniNueva, posicionjNueva, tablero);
+                        pasar = true;
                     } else {
                         System.out.println("El movimiento no es posible");
                     }
+
                 }
 
                 if (in.contains("A")) {
@@ -324,8 +329,9 @@ public class JuegoMain {
                         setearPosiciones(ficha, resultado, posicioni + 1, posicionj);
                         partida.getListaMovimientos().add(in);
                         partida.getColores().add(color);
-                        imprimirTablero(tablero);
-                        posiblesMovimientos(posicioni, posicionj, tablero);
+                        imprimir(tablero, ver);
+                        turno = posiblesMovimientos(posicioni + 1, posicionj, tablero);
+                        pasar = true;
                     } else {
                         System.out.println("Este movimiento no es posible, porque ya esta ocupado");
                     }
@@ -341,14 +347,16 @@ public class JuegoMain {
                         setearPosiciones(ficha, resultado, posicioni + 1, posicionj - 1);
                         partida.getListaMovimientos().add(in);
                         partida.getColores().add(color);
-                        imprimirTablero(tablero);
+                        imprimir(tablero, ver);
+                        turno = posiblesMovimientos(posicioni + 1, posicionj - 1, tablero);
+                        pasar = true;
                     } else {
                         System.out.println("No se puede hacer el movimiento");
                     }
 
                 }
-                turno = posiblesMovimientos(posicioni, posicionj, tablero);
             }
+
         }
         return tablero;
     }
@@ -407,8 +415,6 @@ public class JuegoMain {
         int posicioni = 0;
         int posicionj = 0;
         int[] resultado = new int[2];
-        resultado[0] = posicioni;
-        resultado[1] = posicionj;
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[0].length; j++) {
                 for (int k = 0; k < posicionesinvalidas.length; k++) {
@@ -423,6 +429,8 @@ public class JuegoMain {
                 }
             }
         }
+        resultado[0] = posicioni;
+        resultado[1] = posicionj;
         return resultado;
     }
 
@@ -497,18 +505,19 @@ public class JuegoMain {
         Ficha azules = new Ficha("azul", generarPosicionesArribaFila(), generarPosicionesArribaColumnas());
         int ganador = 0;
         Jugador jugadorGanador = jugadorRojo;
+        boolean ver = false;
 
         if (opcion == 1) {
             System.out.println("Con cuantos movimientos desea jugar?");
             Scanner in = new Scanner(System.in);
             int maximo = in.nextInt();
             int contador = 0;
-            while (contador < maximo) {
-                imprimirTablero(tablero);
+            while (contador <= maximo) {
+                imprimir(tablero, ver);
                 tablero = movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida);
                 contador++;
-                if (contador < maximo) {
-                    imprimirTablero(tablero);
+                if (contador <= maximo) {
+                    imprimir(tablero, ver);
                     tablero = movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida);
                     contador++;
                 }
@@ -518,13 +527,13 @@ public class JuegoMain {
         if (opcion == 2) {
             boolean nopaso = false;
             while (!nopaso) {
-                imprimirTablero(tablero);
+                imprimir(tablero, ver);
                 tablero = movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida);
                 nopaso = verificarPaso(tablero, jugadorRojo, jugadorAzul);
                 if (nopaso) {
                     jugadorGanador = jugadorRojo;
                 }
-                imprimirTablero(tablero);
+                imprimir(tablero, ver);
                 tablero = movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida);
                 nopaso = verificarPaso(tablero, jugadorRojo, jugadorAzul);
                 if (nopaso) {
@@ -538,11 +547,11 @@ public class JuegoMain {
                 int rojaspasadas = 0;
                 int azulespasadas = 0;
                 tablero = movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida);
-                imprimirTablero(tablero);
+                imprimir(tablero, ver);
                 jugadorGanador = ganador(jugadorRojo, jugadorAzul, 3, tablero);
                 tablero = tablero = movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida);
                 jugadorGanador = ganador(jugadorRojo, jugadorAzul, 3, tablero);
-                imprimirTablero(tablero);
+                imprimir(tablero, ver);
 
                 for (int i = 1; i < 9; i++) {
 
@@ -568,6 +577,8 @@ public class JuegoMain {
 
         System.out.println("La partida termino.");
         System.out.println("El ganador es:" + jugadorGanador);
+        int partidasGanadas = jugadorGanador.getCantidadPartidas();
+        jugadorGanador.setCantidadPartidas(partidasGanadas++);
         System.out.println("Gracias por jugar");
     }
 
@@ -586,21 +597,6 @@ public class JuegoMain {
         return paso;
     }
 
-    public static void diagonal(int filaconsulta, int columnaconsulta, int mat[][]) {
-        int suma = 0;
-        int consulta = mat[filaconsulta][columnaconsulta];
-        for (int i = 0; i < 8; i++) {
-            for (int k = 0; k < 9; k++) {
-                if (i != filaconsulta && k != columnaconsulta) {
-                    if (Math.abs(i - filaconsulta) == Math.abs(k - columnaconsulta)) {
-
-                    }
-                }
-
-            }
-        }
-    }
-
     public static void imprimirRanking(Sistema unSistema) {
         boolean vacia = unSistema.getListaJugadores().isEmpty();
         if (!vacia) {
@@ -612,14 +608,8 @@ public class JuegoMain {
         }
     }
 
-    public static void replicarPartida(Sistema unSistema, Partida unaPartida) {
-        ArrayList<String> listamovimientosx = unaPartida.getListaMovimientos();
-        System.out.println(unSistema.getListaPartidas());
-
-    }
-
     public static boolean posiblesMovimientos(int unNroFila, int unNroColumna, int[][] matriz) {
-        boolean esPosible = false;
+        boolean esPosible = true;
         int filas = 8;
         int columnas = 9;
         int cont = 1;
@@ -701,7 +691,7 @@ public class JuegoMain {
             }
             Partida elegida = partidas.get(pedirUnIntValidado(0, partidas.size(), "Elegir una de las partidas", "Partida no valida, ingrese de nuevo"));
             System.out.println("Partida elegida" + elegida);
-            imprimirTablero(tablero);
+            imprimir(tablero, false);
             System.out.println("Movimientos de la partida, presione enter para mostrar cada movimiento");
             for (int i = 0; i < elegida.getListaMovimientos().size(); i++) {
                 System.out.println("Movimiento numero" + i + 1);
@@ -759,7 +749,7 @@ public class JuegoMain {
                     if (posicionj != 8 && tablero[posicioniNueva][posicionjNueva] == 0) {
                         tablero[posicioniNueva][posicionjNueva] = tablero[posicioni][posicionj];
                         tablero[posicioni][posicionj] = 0;
-                        imprimirTablero(tablero);
+                        imprimir(tablero, false);
                     } else {
                         System.out.println("La posicion a donde desea moverse ya esta ocupada");
                     }
@@ -772,7 +762,7 @@ public class JuegoMain {
                     if (posicioni != 0 && tablero[posicioni - 1][posicionj] == 0) {
                         tablero[posicioni - 1][posicionj] = tablero[posicioni][posicionj];
                         tablero[posicioni][posicionj] = 0;
-                        imprimirTablero(tablero);
+                        imprimir(tablero, false);
                         posiblesMovimientos(posicioni, posicionj, tablero);
                     } else {
                         System.out.println("Este movimiento no es posible, porque ya esta ocupado");
@@ -786,7 +776,7 @@ public class JuegoMain {
                     if (posicionj != 0 && tablero[posicioni - 1][posicionj - 1] == 0) {
                         tablero[posicioni - 1][posicionj - 1] = tablero[posicioni][posicionj];
                         tablero[posicioni][posicionj] = 0;
-                        imprimirTablero(tablero);
+                        imprimir(tablero, false);
                     } else {
                         System.out.println("No se puede hacer el movimiento");
                     }
@@ -813,7 +803,7 @@ public class JuegoMain {
                     if (posicionj != 8 && tablero[posicioniNueva][posicionjNueva] == 0) {
                         tablero[posicioniNueva][posicionjNueva] = tablero[posicioni][posicionj];
                         tablero[posicioni][posicionj] = 0;
-                        imprimirTablero(tablero);
+                        imprimir(tablero, false);
                         posiblesMovimientos(posicioniNueva, posicionjNueva, tablero);
                     } else {
                         System.out.println("El movimiento no es posible");
@@ -827,7 +817,7 @@ public class JuegoMain {
                     if (posicioni != 7 && tablero[posicioni + 1][posicionj] == 0) {
                         tablero[posicioni + 1][posicionj] = tablero[posicioni][posicionj];
                         tablero[posicioni][posicionj] = 0;
-                        imprimirTablero(tablero);
+                        imprimir(tablero, false);
                         posiblesMovimientos(posicioni, posicionj, tablero);
                     } else {
                         System.out.println("Este movimiento no es posible, porque ya esta ocupado");
@@ -841,7 +831,7 @@ public class JuegoMain {
                     if (posicionj != 0 && tablero[posicioni + 1][posicionj - 1] == 0) {
                         tablero[posicioni + 1][posicionj - 1] = tablero[posicioni][posicionj];
                         tablero[posicioni][posicionj] = 0;
-                        imprimirTablero(tablero);
+                        imprimir(tablero, false);
                     } else {
                         System.out.println("No se puede hacer el movimiento");
                     }
@@ -851,4 +841,49 @@ public class JuegoMain {
         }
         return tablero;
     }
+
+    public static void imprimirTableroVERR(int[][] unTablero) {
+        for (int i = 0; i < unTablero.length; i++) {
+            for (int j = 0; j < unTablero[0].length; j++) {
+                if (unTablero[i][j] != 0) {
+                    System.out.print(unTablero[i][j]);
+                } else {
+                    System.out.print("-");
+
+                }
+                System.out.print(" ");
+            }
+
+            System.out.println();
+        }
+    }
+
+    public static void imprimirTableroVERN(int[][] unTablero) {
+        for (int i = 0; i < unTablero.length; i++) {
+            System.out.println("+-+-+-+-+-+-+-+-+-+");
+            for (int j = 0; j < unTablero[0].length; j++) {
+
+                if (unTablero[i][j] != 0) {
+
+                    System.out.print("|" + unTablero[i][j]);
+                } else {
+                    System.out.print("| ");
+                }
+            }
+            System.out.print("|");
+            System.out.println("");
+        }
+        System.out.println("+-+-+-+-+-+-+-+-+-+");
+    }
+
+    public static void imprimir(int[][] matriz, boolean unVer) {
+        if (unVer) {
+            imprimirTableroVERN(matriz);
+        } else {
+            imprimirTableroVERN(matriz);
+
+        }
+
+    }
+
 }

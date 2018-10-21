@@ -33,6 +33,7 @@ public class Partida implements Comparable<Partida> {
         this.jugadoruno =jugadoruno;
         this.jugadordos = jugadordos;
         this.hora = new Date();
+        this.listaMovimientos= new ArrayList<>();
     }
     public Jugador getJugadoruno() {
         return jugadoruno;
