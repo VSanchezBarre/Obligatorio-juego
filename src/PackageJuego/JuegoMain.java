@@ -83,6 +83,8 @@ public class JuegoMain {
         return dato;
     }
 
+    
+    // Metodo para agregar un jugador al sistema, corrobora que no hayan dos con el mismo alias
     public static void altaJugador(Sistema system) {
         String nombre = pedirUnString("Ingrese el nombre del jugador :");
         String alias = pedirUnString("Ingrese el alias del jugador:");
@@ -96,8 +98,8 @@ public class JuegoMain {
     }
 
     public static String pedirUnString(String textoInstruccion) {
-        java.lang.System.out.println(textoInstruccion);
-        Scanner scan = new Scanner(java.lang.System.in);
+        System.out.println(textoInstruccion);
+        Scanner scan = new Scanner(System.in);
         return scan.nextLine();
     }
 
@@ -131,13 +133,13 @@ public class JuegoMain {
     public static int[][] movimientoRojoParm(int[][] unTablero, String mov) {
         int[][] tablero = unTablero;
         String in = mov;
+        String result = in.replaceAll("[^0-9]+", "");
+        int resultado = Integer.parseInt(result);
+        int posicioni = 0;
+        int posicionj = 0;
+        int posicioniNueva = 0;
+        int posicionjNueva = 0;
         if (in.contains("D")) {
-            int posicioni = 0;
-            int posicionj = 0;
-            int posicioniNueva = 0;
-            int posicionjNueva = 0;
-            String result = in.replaceAll("[^0-9]+", "");
-            int resultado = Integer.parseInt(result);
             for (int i = 2; i < tablero.length; i++) {
                 for (int j = 0; j < tablero[0].length; j++) {
                     if (tablero[i][j] == resultado) {
@@ -157,10 +159,6 @@ public class JuegoMain {
         }
 
         if (in.contains("A")) {
-            int posicioni = 0;
-            int posicionj = 0;
-            String result = in.replaceAll("[^0-9]+", "");
-            int resultado = Integer.parseInt(result);
             for (int i = 2; i < tablero.length; i++) {
                 for (int j = 0; j < tablero[0].length; j++) {
                     if (tablero[i][j] == resultado) {
@@ -179,10 +177,6 @@ public class JuegoMain {
         }
 
         if (in.contains("I")) {
-            int posicioni = 0;
-            int posicionj = 0;
-            String result = in.replaceAll("[^0-9]+", "");
-            int resultado = Integer.parseInt(result);
             for (int i = 2; i < tablero.length; i++) {
                 for (int j = 0; j < tablero[0].length; j++) {
                     if (tablero[i][j] == resultado) {
@@ -208,18 +202,18 @@ public class JuegoMain {
         }
         return tablero;
     }
-    
-    public static void setearPosiciones(Ficha ficha, int numficha,int posicioninueva,int posicionjnueva){
-        int [] nuevasposicionesi = ficha.getPosicionesi();
-                        int[] nuevasposicionesj = ficha.getPosicionesj();
-                        nuevasposicionesi[numficha]= posicioninueva;
-                        nuevasposicionesj[numficha]= posicionjnueva;
-                        ficha.setPosicionesi(nuevasposicionesi);
-                        ficha.setPosicionesj(nuevasposicionesj);
-        
+
+    public static void setearPosiciones(Ficha ficha, int numficha, int posicioninueva, int posicionjnueva) {
+        int[] nuevasposicionesi = ficha.getPosicionesi();
+        int[] nuevasposicionesj = ficha.getPosicionesj();
+        nuevasposicionesi[numficha] = posicioninueva;
+        nuevasposicionesj[numficha] = posicionjnueva;
+        ficha.setPosicionesi(nuevasposicionesi);
+        ficha.setPosicionesj(nuevasposicionesj);
+
     }
 
-    public static void movimiento(int[][] unTablero, int[] fichasiinvalidas, int[] fichasjinvalidas, int color,int[]fichasvalidas,int[]fichasjvalidas,Ficha ficha) {
+    public static void movimiento(int[][] unTablero, int[] fichasiinvalidas, int[] fichasjinvalidas, int color, int[] fichasvalidas, int[] fichasjvalidas, Ficha ficha, Partida partida) {
         if (color == 0) {
             boolean turno = true;
             while (turno) {
@@ -244,7 +238,9 @@ public class JuegoMain {
                     if (posicionj != 8 && tablero[posicioniNueva][posicionjNueva] == 0) {
                         tablero[posicioniNueva][posicionjNueva] = tablero[posicioni][posicionj];
                         tablero[posicioni][posicionj] = 0;
-                        setearPosiciones(ficha,resultado,posicioniNueva,posicionjNueva);
+                        setearPosiciones(ficha, resultado, posicioniNueva, posicionjNueva);
+                        partida.getListaMovimientos().add(in);
+                        partida.getColores().add(color);
                         imprimirTablero(tablero);
                     } else {
                         System.out.println("La posicion a donde desea moverse ya esta ocupada");
@@ -258,7 +254,9 @@ public class JuegoMain {
                     if (posicioni != 0 && tablero[posicioni - 1][posicionj] == 0) {
                         tablero[posicioni - 1][posicionj] = tablero[posicioni][posicionj];
                         tablero[posicioni][posicionj] = 0;
-                        setearPosiciones(ficha,resultado,posicioni - 1,posicionj);
+                        setearPosiciones(ficha, resultado, posicioni - 1, posicionj);
+                        partida.getListaMovimientos().add(in);
+                        partida.getColores().add(color);
                         imprimirTablero(tablero);
                         posiblesMovimientos(posicioni, posicionj, tablero);
                     } else {
@@ -273,7 +271,9 @@ public class JuegoMain {
                     if (posicionj != 0 && tablero[posicioni - 1][posicionj - 1] == 0) {
                         tablero[posicioni - 1][posicionj - 1] = tablero[posicioni][posicionj];
                         tablero[posicioni][posicionj] = 0;
-                        setearPosiciones(ficha,resultado,posicioni - 1,posicionj-1);
+                        setearPosiciones(ficha, resultado, posicioni - 1, posicionj - 1);
+                        partida.getListaMovimientos().add(in);
+                        partida.getColores().add(color);
                         imprimirTablero(tablero);
                     } else {
                         System.out.println("No se puede hacer el movimiento");
@@ -306,7 +306,9 @@ public class JuegoMain {
                     if (posicionj != 8 && tablero[posicioniNueva][posicionjNueva] == 0) {
                         tablero[posicioniNueva][posicionjNueva] = tablero[posicioni][posicionj];
                         tablero[posicioni][posicionj] = 0;
-                        setearPosiciones(ficha,resultado,posicioniNueva,posicionjNueva);
+                        setearPosiciones(ficha, resultado, posicioniNueva, posicionjNueva);
+                        partida.getListaMovimientos().add(in);
+                        partida.getColores().add(color);
                         imprimirTablero(tablero);
                         posiblesMovimientos(posicioniNueva, posicionjNueva, tablero);
                     } else {
@@ -321,7 +323,9 @@ public class JuegoMain {
                     if (posicioni != 7 && tablero[posicioni + 1][posicionj] == 0) {
                         tablero[posicioni + 1][posicionj] = tablero[posicioni][posicionj];
                         tablero[posicioni][posicionj] = 0;
-                        setearPosiciones(ficha,resultado,posicioni +1,posicionj);
+                        setearPosiciones(ficha, resultado, posicioni + 1, posicionj);
+                        partida.getListaMovimientos().add(in);
+                        partida.getColores().add(color);
                         imprimirTablero(tablero);
                         posiblesMovimientos(posicioni, posicionj, tablero);
                     } else {
@@ -336,7 +340,9 @@ public class JuegoMain {
                     if (posicionj != 0 && tablero[posicioni + 1][posicionj - 1] == 0) {
                         tablero[posicioni + 1][posicionj - 1] = tablero[posicioni][posicionj];
                         tablero[posicioni][posicionj] = 0;
-                        setearPosiciones(ficha,resultado,posicioni +1,posicionj-1);
+                        setearPosiciones(ficha, resultado, posicioni + 1, posicionj - 1);
+                        partida.getListaMovimientos().add(in);
+                        partida.getColores().add(color);
                         imprimirTablero(tablero);
                     } else {
                         System.out.println("No se puede hacer el movimiento");
@@ -430,7 +436,7 @@ public class JuegoMain {
         Partida partida = new Partida(jugadorRojo, jugadorAzul);
         Ficha rojas = new Ficha("rojo", generarPosicionesAbajoFila(), generarPosicionesAbajoColumnas());
         Ficha azules = new Ficha("azul", generarPosicionesArribaFila(), generarPosicionesArribaColumnas());
-        
+
         if (opcion == 1) {
             System.out.println("Con cuantos movimientos desea jugar?");
             Scanner in = new Scanner(System.in);
@@ -438,11 +444,11 @@ public class JuegoMain {
             int contador = 0;
             while (contador < maximo) {
                 imprimirTablero(tablero);
-                movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(),0,rojas.getPosicionesi(),rojas.getPosicionesj(),rojas);
+                movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida);
                 contador++;
                 if (contador < maximo) {
                     imprimirTablero(tablero);
-                    movimiento(tablero,rojas.getPosicionesi(),rojas.getPosicionesj(),1,azules.getPosicionesi(),azules.getPosicionesj(),azules);
+                    movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida);
                     contador++;
                 }
             }
@@ -451,10 +457,10 @@ public class JuegoMain {
             boolean nopaso = false;
             while (!nopaso) {
                 imprimirTablero(tablero);
-                movimiento(tablero,rojas.getPosicionesi(),rojas.getPosicionesj(),1,azules.getPosicionesi(),azules.getPosicionesj(),azules);
+                movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida);
                 verificarPaso(tablero, 1);
                 imprimirTablero(tablero);
-                movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(),0,rojas.getPosicionesi(),rojas.getPosicionesj(),rojas);
+                movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida);
             }
         }
         if (opcion == 3) {
@@ -511,7 +517,7 @@ public class JuegoMain {
     }
 
     public static boolean posiblesMovimientos(int unNroFila, int unNroColumna, int[][] matriz) {
-        boolean esPosible=false;
+        boolean esPosible = false;
         int filas = 8;
         int columnas = 9;
         int cont = 1;
@@ -575,14 +581,15 @@ public class JuegoMain {
             }
             if (sumaVertical == elem && sumaHorizontal == elem && sumaDiagonalD == elem && sumaDiagonalI == elem) {
                 System.out.println("No puede realizar movimientos, siguiente turno");
-            } else {
+                esPosible = false;
             }
         }
         return esPosible;
     }
 
     public static void historial(Sistema sistema) {
-        boolean continuar = true;
+        Ficha rojas = sistema.getListaFichas().get(0);
+        Ficha azules = sistema.getListaFichas().get(1);
         int[][] tablero = crearTableroPred(8, 9);
         ArrayList<Partida> partidas = sistema.getListaPartidas();
         boolean vacia = partidas.isEmpty();
@@ -590,19 +597,17 @@ public class JuegoMain {
             for (int i = 0; i < partidas.size(); i++) {
                 System.out.println(partidas.get(i));
             }
-            Scanner in = new Scanner(System.in);
-            Partida elegida = partidas.get(in.nextInt());
+            Partida elegida = partidas.get(pedirUnIntValidado(0, partidas.size(), "Elegir una de las partidas", "Partida no valida, ingrese de nuevo"));
             System.out.println("Partida elegida" + elegida);
-            while (continuar) {
-                for (int i = 0; i < elegida.getListaMovimientos().size(); i++) {
-                    System.out.println("Movimiento numero" + i + 1);
-                    tablero = movimientoRojoParm(tablero, elegida.getListaMovimientos().get(i));
-                    imprimirTablero(tablero);
-                    enterContinuar();
-                }
-                continuar = false;
-                System.out.println("Todos los movimientos mostrados");
+            imprimirTablero(tablero);
+            System.out.println("Movimientos de la partida, presione enter para mostrar cada movimiento");
+            for (int i = 0; i < elegida.getListaMovimientos().size(); i++) {
+                System.out.println("Movimiento numero" + i + 1);
+                tablero = movimientoParm(tablero,elegida,rojas,azules);
+                enterContinuar();
             }
+            System.out.println("Todos los movimientos mostrados");
+
         } else {
             System.out.println("No hay partidas en su historial!");
         }
@@ -625,4 +630,126 @@ public class JuegoMain {
         int opcion = pedirUnIntValidado(1, 3, "Eliga un metodo de terminacion", "Valor fuera de rango, intente denuevo");
         return opcion;
     }
+
+    public static int[][] movimientoParm(int[][] unTablero, Partida partida, Ficha rojas, Ficha azules) {
+        int[][] tablero = unTablero;
+        ArrayList<String> movimientos = partida.getListaMovimientos();
+        ArrayList<Integer> colores = partida.getColores();
+        for (int i = 0; i <= movimientos.size(); i++) {
+            String mov = movimientos.get(i);
+            int color = colores.get(i);
+            if (color == 0) {
+                int[] fichasiinvalidas = azules.getPosicionesi();
+                int[] fichasjinvalidas = azules.getPosicionesj();
+                String result = mov.replaceAll("[^0-9]+", "");
+                int resultado = Integer.parseInt(result);
+                int posicioni = 0;
+                int posicionj = 0;
+                int posicioniNueva = 0;
+                int posicionjNueva = 0;
+                if (mov.contains("D")) {
+                    int[] posiciones = recorrerMatrizValida(tablero, fichasiinvalidas, fichasjinvalidas, resultado);
+                    posicioni = posiciones[0];
+                    posicionj = posiciones[1];
+                    posicioniNueva = posicioni - 1;
+                    posicionjNueva = posicionj + 1;
+
+                    if (posicionj != 8 && tablero[posicioniNueva][posicionjNueva] == 0) {
+                        tablero[posicioniNueva][posicionjNueva] = tablero[posicioni][posicionj];
+                        tablero[posicioni][posicionj] = 0;
+                        imprimirTablero(tablero);
+                    } else {
+                        System.out.println("La posicion a donde desea moverse ya esta ocupada");
+                    }
+                }
+
+                if (mov.contains("A")) {
+                    int[] posiciones = recorrerMatrizValida(tablero, fichasiinvalidas, fichasjinvalidas, resultado);
+                    posicioni = posiciones[0];
+                    posicionj = posiciones[1];
+                    if (posicioni != 0 && tablero[posicioni - 1][posicionj] == 0) {
+                        tablero[posicioni - 1][posicionj] = tablero[posicioni][posicionj];
+                        tablero[posicioni][posicionj] = 0;
+                        imprimirTablero(tablero);
+                        posiblesMovimientos(posicioni, posicionj, tablero);
+                    } else {
+                        System.out.println("Este movimiento no es posible, porque ya esta ocupado");
+                    }
+                }
+
+                if (mov.contains("I")) {
+                    int[] posiciones = recorrerMatrizValida(tablero, fichasiinvalidas, fichasjinvalidas, resultado);
+                    posicioni = posiciones[0];
+                    posicionj = posiciones[1];
+                    if (posicionj != 0 && tablero[posicioni - 1][posicionj - 1] == 0) {
+                        tablero[posicioni - 1][posicionj - 1] = tablero[posicioni][posicionj];
+                        tablero[posicioni][posicionj] = 0;
+                        imprimirTablero(tablero);
+                    } else {
+                        System.out.println("No se puede hacer el movimiento");
+                    }
+
+                }
+            } else {
+                int[] fichasiinvalidas = rojas.getPosicionesi();
+                int[] fichasjinvalidas = rojas.getPosicionesj();
+                String result = mov.replaceAll("[^0-9]+", "");
+                int resultado = Integer.parseInt(result);
+                int posicioni = 0;
+                int posicionj = 0;
+                int posicioniNueva = 0;
+                int posicionjNueva = 0;
+                String in;
+                Scanner intro = new Scanner(System.in);
+                if (mov.contains("D")) {
+                    int[] posiciones = recorrerMatrizValida(tablero, fichasiinvalidas, fichasjinvalidas, resultado);
+                    posicioni = posiciones[0];
+                    posicionj = posiciones[1];
+                    posicioniNueva = posicioni + 1;
+                    posicionjNueva = posicionj + 1;
+
+                    if (posicionj != 8 && tablero[posicioniNueva][posicionjNueva] == 0) {
+                        tablero[posicioniNueva][posicionjNueva] = tablero[posicioni][posicionj];
+                        tablero[posicioni][posicionj] = 0;
+                        imprimirTablero(tablero);
+                        posiblesMovimientos(posicioniNueva, posicionjNueva, tablero);
+                    } else {
+                        System.out.println("El movimiento no es posible");
+                    }
+                }
+
+                if (mov.contains("A")) {
+                    int[] posiciones = recorrerMatrizValida(tablero, fichasiinvalidas, fichasjinvalidas, resultado);
+                    posicioni = posiciones[0];
+                    posicionj = posiciones[1];
+                    if (posicioni != 7 && tablero[posicioni + 1][posicionj] == 0) {
+                        tablero[posicioni + 1][posicionj] = tablero[posicioni][posicionj];
+                        tablero[posicioni][posicionj] = 0;
+                        imprimirTablero(tablero);
+                        posiblesMovimientos(posicioni, posicionj, tablero);
+                    } else {
+                        System.out.println("Este movimiento no es posible, porque ya esta ocupado");
+                    }
+                }
+
+                if (mov.contains("I")) {
+                    int[] posiciones = recorrerMatrizValida(tablero, fichasiinvalidas, fichasjinvalidas, resultado);
+                    posicioni = posiciones[0];
+                    posicionj = posiciones[1];
+                    if (posicionj != 0 && tablero[posicioni + 1][posicionj - 1] == 0) {
+                        tablero[posicioni + 1][posicionj - 1] = tablero[posicioni][posicionj];
+                        tablero[posicioni][posicionj] = 0;
+                        imprimirTablero(tablero);
+                    } else {
+                        System.out.println("No se puede hacer el movimiento");
+                    }
+
+                }
+            }
+        }
+        return tablero;
+    }
 }
+
+   
+

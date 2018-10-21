@@ -6,11 +6,20 @@ import java.util.ArrayList;
 public class Sistema {
     private ArrayList <Jugador> listaJugadores;
     private ArrayList <Partida> listaPartidas;
+    private ArrayList <Ficha> listaFichas;
     
     public Sistema() {
         this.listaJugadores = new ArrayList<>();
         this.listaPartidas = new ArrayList<>();
 
+    }
+
+    public void setListaFichas(ArrayList<Ficha> listaFichas) {
+        this.listaFichas = listaFichas;
+    }
+
+    public ArrayList<Ficha> getListaFichas() {
+        return listaFichas;
     }
 
     public ArrayList<Jugador> getListaJugadores() {

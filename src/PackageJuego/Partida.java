@@ -1,6 +1,7 @@
 package PackageJuego;
 
 import java.util.ArrayList;
+
 import java.util.Date;
 
 public class Partida implements Comparable<Partida> {
@@ -8,6 +9,7 @@ public class Partida implements Comparable<Partida> {
     Jugador jugadoruno;
     Jugador jugadordos;
     ArrayList<String> listaMovimientos;
+    ArrayList<Integer> listaColores;
     Date hora;
 
     public Partida() {
@@ -15,6 +17,7 @@ public class Partida implements Comparable<Partida> {
         this.jugadoruno = new Jugador();
         this.jugadordos = new Jugador();
         this.listaMovimientos = new ArrayList<String>();
+        this.listaColores = new ArrayList<>();
         this.hora = date;
     }
 
@@ -23,6 +26,7 @@ public class Partida implements Comparable<Partida> {
         this.jugadordos = jugadordos;
         this.listaMovimientos = listaMovimientos;
         this.hora = new Date();
+        this.listaColores = new ArrayList <>();
     }
 
     public Partida(Jugador jugadoruno,Jugador jugadordos){
@@ -58,9 +62,29 @@ public class Partida implements Comparable<Partida> {
         return hora;
     }
 
+    public ArrayList<Integer> getColores() {
+        return listaColores;
+    }
+
+    public void setColores(ArrayList<Integer> colores) {
+        this.listaColores = colores;
+    }
+
+
+    public void setHora(Date hora) {
+        this.hora = hora;
+    }
+
     @Override
     public int compareTo(Partida unaPartida) {
         return this.getHora().compareTo(unaPartida.getHora());
     }
+
+    @Override
+    public String toString() {
+        return "Partida{" + "Jugador Uno = " + jugadoruno + ", Jugador Dos =" + jugadordos + " Hora = "  + hora + '}';
+    }
+    
+  
 
 }
