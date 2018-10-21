@@ -6,12 +6,23 @@ public class Jugador implements Comparable{
     private String alias;
     private int edad;
     private int cantidadPartidas;
+    private Ficha fichasJugador;
+
+    public void setFichasJugador(Ficha fichasJugador) {
+        this.fichasJugador = fichasJugador;
+    }
+
+    public Ficha getFichasJugador() {
+        return fichasJugador;
+    }
 
    public Jugador(String name, String alias, int edad) {
         this.alias = alias;
         this.nombre=name;
         this.edad=edad;
     }
+   
+   
 
     public int getCantidadPartidas() {
         return cantidadPartidas;

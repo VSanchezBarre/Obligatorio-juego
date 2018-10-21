@@ -83,7 +83,6 @@ public class JuegoMain {
         return dato;
     }
 
-    
     // Metodo para agregar un jugador al sistema, corrobora que no hayan dos con el mismo alias
     public static void altaJugador(Sistema system) {
         String nombre = pedirUnString("Ingrese el nombre del jugador :");
@@ -213,11 +212,11 @@ public class JuegoMain {
 
     }
 
-    public static void movimiento(int[][] unTablero, int[] fichasiinvalidas, int[] fichasjinvalidas, int color, int[] fichasvalidas, int[] fichasjvalidas, Ficha ficha, Partida partida) {
+    public static int[][] movimiento(int[][] unTablero, int[] fichasiinvalidas, int[] fichasjinvalidas, int color, int[] fichasvalidas, int[] fichasjvalidas, Ficha ficha, Partida partida) {
+        int[][] tablero = unTablero;
         if (color == 0) {
             boolean turno = true;
             while (turno) {
-                int[][] tablero = unTablero;
                 System.out.println("Jugador rojo, eliga un movimiento");
                 String in;
                 Scanner intro = new Scanner(System.in);
@@ -285,7 +284,6 @@ public class JuegoMain {
         } else {
             boolean turno = true;
             while (turno) {
-                int[][] tablero = unTablero;
                 System.out.println("Jugador azul, eliga un movimiento");
                 String in;
                 Scanner intro = new Scanner(System.in);
@@ -352,6 +350,7 @@ public class JuegoMain {
                 turno = posiblesMovimientos(posicioni, posicionj, tablero);
             }
         }
+        return tablero;
     }
 
     public static Jugador[] elegirJugador(Sistema sistema, String color1, String color2) {
@@ -427,6 +426,66 @@ public class JuegoMain {
         return resultado;
     }
 
+    public static Jugador ganador(Jugador jugadoruno, Jugador jugadordos, int condicion, int[][] tablero) {
+        Jugador elganador = jugadoruno;
+        if (condicion == 1) {
+            int puntosJugadorUno = 0;
+            int puntosJugadorDos = 0;
+            for (int i = 1; i < 9; i++) {
+                int[] posicionesrojas = recorrerMatrizValida(tablero, jugadordos.getFichasJugador().getPosicionesi(), jugadordos.getFichasJugador().getPosicionesj(), i);
+                int[] posicionesazules = recorrerMatrizValida(tablero, jugadoruno.getFichasJugador().getPosicionesi(), jugadoruno.getFichasJugador().getPosicionesj(), i);
+                if (posicionesrojas[0] <= 3) {
+                    puntosJugadorUno++;
+                }
+                if (posicionesazules[0] >= 3) {
+                    puntosJugadorDos++;
+                }
+            }
+            if (puntosJugadorUno != puntosJugadorUno) {
+                if (puntosJugadorUno > puntosJugadorDos) {
+                    elganador = jugadoruno;
+                } else {
+                    elganador = jugadordos;
+                }
+            }
+        }
+        if (condicion == 2) {
+            for (int i = 1; i < 9; i++) {
+                int[] posicionesrojas = recorrerMatrizValida(tablero, jugadordos.getFichasJugador().getPosicionesi(), jugadordos.getFichasJugador().getPosicionesj(), i);
+                int[] posicionesazules = recorrerMatrizValida(tablero, jugadoruno.getFichasJugador().getPosicionesi(), jugadoruno.getFichasJugador().getPosicionesj(), i);
+                if (posicionesrojas[0] <= 3) {
+                    elganador = jugadoruno;
+                } else {
+                    if (posicionesazules[0] > 3) {
+                        elganador = jugadordos;
+                    }
+                }
+            }
+        }
+        if (condicion == 3) {
+            int rojaspasadas = 0;
+            int azulespasadas = 0;
+            for (int i = 1; i < 9; i++) {
+                int[] posicionesrojas = recorrerMatrizValida(tablero, jugadordos.getFichasJugador().getPosicionesi(), jugadordos.getFichasJugador().getPosicionesj(), i);
+                int[] posicionesazules = recorrerMatrizValida(tablero, jugadoruno.getFichasJugador().getPosicionesi(), jugadoruno.getFichasJugador().getPosicionesj(), i);
+                if (posicionesrojas[0] <= 3) {
+                    rojaspasadas++;
+                }
+                if (posicionesazules[0] > 3) {
+                    azulespasadas++;
+                }
+            }
+            if (rojaspasadas == 8) {
+                elganador = jugadoruno;
+            }
+            if (azulespasadas == 8) {
+                elganador = jugadordos;
+            }
+        }
+
+        return elganador;
+    }
+
     public static void jugar(Sistema sistema, int unaCantidadFilas, int unaCantidadColumnas) {
         Jugador[] jugadoresElegidos = elegirJugador(sistema, "rojo", "azul");
         Jugador jugadorRojo = jugadoresElegidos[1];
@@ -436,6 +495,8 @@ public class JuegoMain {
         Partida partida = new Partida(jugadorRojo, jugadorAzul);
         Ficha rojas = new Ficha("rojo", generarPosicionesAbajoFila(), generarPosicionesAbajoColumnas());
         Ficha azules = new Ficha("azul", generarPosicionesArribaFila(), generarPosicionesArribaColumnas());
+        int ganador = 0;
+        Jugador jugadorGanador = jugadorRojo;
 
         if (opcion == 1) {
             System.out.println("Con cuantos movimientos desea jugar?");
@@ -444,38 +505,83 @@ public class JuegoMain {
             int contador = 0;
             while (contador < maximo) {
                 imprimirTablero(tablero);
-                movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida);
+                tablero = movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida);
                 contador++;
                 if (contador < maximo) {
                     imprimirTablero(tablero);
-                    movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida);
+                    tablero = movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida);
                     contador++;
                 }
             }
+            jugadorGanador = ganador(jugadorRojo, jugadorAzul, 1, tablero);
         }
         if (opcion == 2) {
             boolean nopaso = false;
             while (!nopaso) {
                 imprimirTablero(tablero);
-                movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida);
-                verificarPaso(tablero, 1);
+                tablero = movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida);
+                nopaso = verificarPaso(tablero, jugadorRojo, jugadorAzul);
+                if (nopaso) {
+                    jugadorGanador = jugadorRojo;
+                }
                 imprimirTablero(tablero);
-                movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida);
+                tablero = movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida);
+                nopaso = verificarPaso(tablero, jugadorRojo, jugadorAzul);
+                if (nopaso) {
+                    jugadorGanador = jugadorAzul;
+                }
             }
         }
         if (opcion == 3) {
+            boolean paso = false;
+            while (!paso) {
+                int rojaspasadas = 0;
+                int azulespasadas = 0;
+                tablero = movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida);
+                imprimirTablero(tablero);
+                jugadorGanador = ganador(jugadorRojo, jugadorAzul, 3, tablero);
+                tablero = tablero = movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida);
+                jugadorGanador = ganador(jugadorRojo, jugadorAzul, 3, tablero);
+                imprimirTablero(tablero);
 
-        }
-    }
+                for (int i = 1; i < 9; i++) {
 
-    public static boolean verificarPaso(int mat[][], int lado) {
-        boolean paso = false;
-        if (lado == 1) {
-            for (int i = 6; i > 0; i--) {
-                for (int j = 0; j < mat[0].length; j++) {
+                    int[] posicionesrojas = recorrerMatrizValida(tablero, jugadorAzul.getFichasJugador().getPosicionesi(), jugadorAzul.getFichasJugador().getPosicionesj(), i);
+                    int[] posicionesazules = recorrerMatrizValida(tablero, jugadorRojo.getFichasJugador().getPosicionesi(), jugadorRojo.getFichasJugador().getPosicionesj(), i);
+                    if (posicionesrojas[0] <= 3) {
+                        rojaspasadas++;
+                    }
+                    if (posicionesazules[0] > 3) {
+                        azulespasadas++;
+                    }
+                }
+                if (rojaspasadas == 8) {
+                    jugadorGanador = jugadorRojo;
+                    paso = true;
+                }
+                if (azulespasadas == 8) {
+                    jugadorGanador = jugadorAzul;
+                    paso = true;
                 }
             }
+        }
 
+        System.out.println("La partida termino.");
+        System.out.println("El ganador es:" + jugadorGanador);
+        System.out.println("Gracias por jugar");
+    }
+
+    public static boolean verificarPaso(int mat[][], Jugador rojo, Jugador azul) {
+        boolean paso = false;
+        for (int i = 1; i < 9; i++) {
+            int[] posicionesrojas = recorrerMatrizValida(mat, azul.getFichasJugador().getPosicionesi(), azul.getFichasJugador().getPosicionesj(), i);
+            int[] posicionesazules = recorrerMatrizValida(mat, rojo.getFichasJugador().getPosicionesi(), rojo.getFichasJugador().getPosicionesj(), i);
+            if (posicionesrojas[0] <= 3) {
+                paso = true;
+            }
+            if (posicionesazules[0] > 3) {
+                paso = true;
+            }
         }
         return paso;
     }
@@ -509,10 +615,6 @@ public class JuegoMain {
     public static void replicarPartida(Sistema unSistema, Partida unaPartida) {
         ArrayList<String> listamovimientosx = unaPartida.getListaMovimientos();
         System.out.println(unSistema.getListaPartidas());
-
-    }
-
-    public static void cambiarVisualizacion(int[][] unaMat) {
 
     }
 
@@ -603,7 +705,7 @@ public class JuegoMain {
             System.out.println("Movimientos de la partida, presione enter para mostrar cada movimiento");
             for (int i = 0; i < elegida.getListaMovimientos().size(); i++) {
                 System.out.println("Movimiento numero" + i + 1);
-                tablero = movimientoParm(tablero,elegida,rojas,azules);
+                tablero = movimientoParm(tablero, elegida, rojas, azules);
                 enterContinuar();
             }
             System.out.println("Todos los movimientos mostrados");
@@ -750,6 +852,3 @@ public class JuegoMain {
         return tablero;
     }
 }
-
-   
-
