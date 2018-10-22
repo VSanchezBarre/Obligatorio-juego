@@ -5,7 +5,7 @@ public class Jugador implements Comparable{
     private String nombre;
     private String alias;
     private int edad;
-    private int cantidadPartidas;
+    private int partidasGanadas;
     private Ficha fichasJugador;
 
     public void setFichasJugador(Ficha fichasJugador) {
@@ -24,12 +24,12 @@ public class Jugador implements Comparable{
    
    
 
-    public int getCantidadPartidas() {
-        return cantidadPartidas;
+    public int getPartidasGanadas() {
+        return partidasGanadas;
     }
 
-    public void setCantidadPartidas(int cantidadPartidas) {
-        this.cantidadPartidas = cantidadPartidas;
+    public void setPartidasGanadas(int partidasGanadas) {
+        this.partidasGanadas = partidasGanadas;
     }
 
    public Jugador(){
@@ -65,7 +65,7 @@ public class Jugador implements Comparable{
     
     @Override
     public String toString() {
-        return "Jugador:" + "Nombre=" + nombre + ", Alias=" + alias + "Partidas ganadas="+cantidadPartidas;
+        return "Jugador:" + "Nombre=" + nombre + ", Alias=" + alias + "Partidas ganadas="+partidasGanadas;
     }
     
     public boolean equals (Object obj) {
@@ -76,7 +76,7 @@ public class Jugador implements Comparable{
     @Override
     public int compareTo(Object o) {
         Jugador jugador =(Jugador)o;
-        return this.getCantidadPartidas() - jugador.getCantidadPartidas();
+        return this.getPartidasGanadas() - jugador.getPartidasGanadas();
     }
     
     

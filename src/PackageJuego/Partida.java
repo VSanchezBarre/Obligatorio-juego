@@ -6,54 +6,54 @@ import java.util.Date;
 
 public class Partida implements Comparable<Partida> {
 
-    Jugador jugadoruno;
-    Jugador jugadordos;
+    Jugador jugadorUno;
+    Jugador jugadorDos;
     ArrayList<String> listaMovimientos;
     ArrayList<Integer> listaColores;
     Date hora;
 
     public Partida() {
         Date date = new Date();
-        this.jugadoruno = new Jugador();
-        this.jugadordos = new Jugador();
+        this.jugadorUno = new Jugador();
+        this.jugadorDos = new Jugador();
         this.listaMovimientos = new ArrayList<String>();
         this.listaColores = new ArrayList<>();
         this.hora = date;
     }
 
     public Partida(Jugador jugadoruno, Jugador jugadordos, ArrayList<String> listaMovimientos) {
-        this.jugadoruno = jugadoruno;
-        this.jugadordos = jugadordos;
+        this.jugadorUno = jugadoruno;
+        this.jugadorDos = jugadordos;
         this.listaMovimientos = listaMovimientos;
         this.hora = new Date();
         this.listaColores = new ArrayList <>();
     }
 
     public Partida(Jugador jugadoruno,Jugador jugadordos){
-        this.jugadoruno =jugadoruno;
-        this.jugadordos = jugadordos;
+        this.jugadorUno =jugadoruno;
+        this.jugadorDos = jugadordos;
         this.hora = new Date();
         this.listaMovimientos= new ArrayList<>();
         this.listaColores=new ArrayList<>();
     }
-    public Jugador getJugadoruno() {
-        return jugadoruno;
+    public Jugador getJugadorUno() {
+        return jugadorUno;
     }
 
-    public Jugador getJugadordos() {
-        return jugadordos;
+    public Jugador getJugadorDos() {
+        return jugadorDos;
     }
 
     public ArrayList<String> getListaMovimientos() {
         return listaMovimientos;
     }
 
-    public void setJugadoruno(Jugador jugadoruno) {
-        this.jugadoruno = jugadoruno;
+    public void setJugadorUno(Jugador jugadorUno) {
+        this.jugadorUno = jugadorUno;
     }
 
-    public void setJugadordos(Jugador jugadordos) {
-        this.jugadordos = jugadordos;
+    public void setJugadorDos(Jugador jugadorDos) {
+        this.jugadorDos = jugadorDos;
     }
 
     public void setListaMovimientos(ArrayList<String> listaMovimientos) {
@@ -84,7 +84,7 @@ public class Partida implements Comparable<Partida> {
 
     @Override
     public String toString() {
-        return "Partida{" + "Jugador Uno = " + jugadoruno + ", Jugador Dos =" + jugadordos + " Hora = "  + hora + '}';
+        return "Partida{" + "Jugador Uno = " + jugadorUno + ", Jugador Dos =" + jugadorDos + " Hora = "  + hora + '}';
     }
     
   

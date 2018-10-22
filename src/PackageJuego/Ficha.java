@@ -20,7 +20,7 @@ public class Ficha {
         this.color = color;
         this.posicionesi = posicionesi;
         this.posicionesj = posicionesj;
-        //hola
+       
     }
 
     public void setColor(String color) {
