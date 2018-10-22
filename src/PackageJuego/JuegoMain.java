@@ -230,16 +230,11 @@ public class JuegoMain {
                     posicionj = posiciones[1];
                     if (posicionj != 0 && tablero[posicioni - 1][posicionj - 1] == 0) {
                         tablero[posicioni - 1][posicionj - 1] = tablero[posicioni][posicionj];
-                        System.out.println(tablero[posicioni-1][posicionj-1]);
                         tablero[posicioni][posicionj] = 0;
                         setearPosiciones(ficha, resultado, posicioni - 1, posicionj - 1);
-                        System.out.println("Setear ta bien");
                         partida.getListaMovimientos().add(in);
-                        System.out.println("Agregar a la lista ta bien");
                         partida.getColores().add(color);
-                        System.out.println("Agregar color a la lista ta bien");
                         esPosible = posiblesMovimientos(posicioni - 1, posicionj - 1, tablero);
-                        System.out.println("Posibles movimientos ta bien");
                         pasar = true;
                         imprimir(tablero, ver);
                     } else {
@@ -341,12 +336,18 @@ public class JuegoMain {
                     int[] posiciones = recorrerMatrizValida(tablero, fichasiinvalidas, fichasjinvalidas, resultado);
                     posicioni = posiciones[0];
                     posicionj = posiciones[1];
+                    System.out.println(posicioni);
+                    System.out.println(posicionj);
                     if (posicionj != 0 && tablero[posicioni + 1][posicionj - 1] == 0) {
                         tablero[posicioni + 1][posicionj - 1] = tablero[posicioni][posicionj];
+                        System.out.println("Entra en el if bien");
                         tablero[posicioni][posicionj] = 0;
                         setearPosiciones(ficha, resultado, posicioni + 1, posicionj - 1);
+                        System.out.println("Setear anda bien");
                         partida.getListaMovimientos().add(in);
+                        System.out.println("Agregar movimientos lista anda bien");
                         partida.getColores().add(color);
+                        System.out.println("Agregar colores lista anda bien");
                         imprimir(tablero, ver);
                         turno = posiblesMovimientos(posicioni + 1, posicionj - 1, tablero);
                         pasar = true;
@@ -417,14 +418,16 @@ public class JuegoMain {
         int[] resultado = new int[2];
         for (int i = 0; i < matriz.length; i++) {
             for (int j = 0; j < matriz[0].length; j++) {
-                for (int k = 0; k < posicionesinvalidas.length; k++) {
-                    if (i != posicionesinvalidas[k] || j != posicionesjinvalidas[k]) {
-                        if (matriz[i][j] == numero) {
-                            posicioni = i;
-                            posicionj = j;
-
+                if (matriz[i][j] == numero) {
+                    boolean invalida=false;
+                    for (int k = 0; k < posicionesinvalidas.length; k++) {
+                        if ((i == posicionesinvalidas[k]) && (j == posicionesjinvalidas[k])) {
+                        invalida=true;
                         }
-
+                    }
+                    if(!invalida){
+                        posicioni=i;
+                        posicionj=j;
                     }
                 }
             }
@@ -655,23 +658,34 @@ public class JuegoMain {
                 cont++;
             }
 
-            if (sumaDiagonalD != elem) {
+            for (int n = 0; n < 9; n++) {
+                sumaHorizontal = sumaHorizontal + matriz[unNroFila][n];
+            }
+
+            for (int p = 0; p < 8; p++) {
+                sumaVertical = sumaVertical + matriz[p][unNroColumna];
+            }
+
+            sumaDiagonalI = sumaDiagonalI + elem;
+            sumaDiagonalD = sumaDiagonalD + elem;
+            if (sumaDiagonalD != elem && sumaDiagonalD > 0 && sumaDiagonalD < 9) {
                 System.out.println("Puede mover " + sumaDiagonalD);
             }
 
-            if (sumaDiagonalI != elem) {
+            if (sumaDiagonalI != elem && sumaDiagonalI > 0 && sumaDiagonalI < 9) {
                 System.out.println("Puede mover " + sumaDiagonalI);
 
             }
 
-            if (sumaHorizontal != elem) {
+            if (sumaHorizontal != elem && sumaHorizontal > 0 && sumaHorizontal < 9) {
                 System.out.println("Puede mover " + sumaHorizontal);
 
             }
-            if (sumaVertical != elem) {
+            if (sumaVertical != elem && sumaVertical > 0 && sumaVertical < 9) {
                 System.out.println("Puede mover " + sumaVertical);
             }
-            if (sumaVertical == elem && sumaHorizontal == elem && sumaDiagonalD == elem && sumaDiagonalI == elem) {
+            if ((sumaVertical == elem || sumaVertical == 0 || sumaVertical > 8) && (sumaHorizontal == elem || sumaHorizontal == 0 || sumaHorizontal > 8)
+                    && (sumaDiagonalD == elem || sumaDiagonalD == 0 || sumaDiagonalD > 8) && (sumaDiagonalI == elem || sumaDiagonalI == 0 || sumaDiagonalI > 8)) {
                 System.out.println("No puede realizar movimientos, siguiente turno");
                 esPosible = false;
             }

@@ -34,6 +34,7 @@ public class Partida implements Comparable<Partida> {
         this.jugadordos = jugadordos;
         this.hora = new Date();
         this.listaMovimientos= new ArrayList<>();
+        this.listaColores=new ArrayList<>();
     }
     public Jugador getJugadoruno() {
         return jugadoruno;
