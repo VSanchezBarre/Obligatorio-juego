@@ -26,7 +26,7 @@ public class Ranking extends javax.swing.JFrame {
         this.sistema = sistema;
         this.listaJugadores = sistema.getListaJugadores();
         this.listaAlias=crearListaAlias(sistema);
-        this.jList1 = new JList(listaAlias.toArray());
+        this.jlistJugadores = new JList(listaAlias.toArray());
         initComponents();
     }
   
@@ -46,23 +46,23 @@ public ArrayList<String> crearListaAlias(Sistema sistema) {
 
         jScrollBar1 = new javax.swing.JScrollBar();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        titulo = new javax.swing.JTextPane();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jlistJugadores = new javax.swing.JList<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jTextPane1.setForeground(new java.awt.Color(0, 153, 102));
-        jTextPane1.setText("Ranking");
-        jTextPane1.setCaretColor(new java.awt.Color(102, 0, 0));
-        jScrollPane1.setViewportView(jTextPane1);
+        titulo.setForeground(new java.awt.Color(0, 153, 102));
+        titulo.setText("Ranking");
+        titulo.setCaretColor(new java.awt.Color(102, 0, 0));
+        jScrollPane1.setViewportView(titulo);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        jlistJugadores.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane2.setViewportView(jList1);
+        jScrollPane2.setViewportView(jlistJugadores);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -125,10 +125,10 @@ public ArrayList<String> crearListaAlias(Sistema sistema) {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JList<String> jList1;
     private javax.swing.JScrollBar jScrollBar1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextPane jTextPane1;
+    private javax.swing.JList<String> jlistJugadores;
+    private javax.swing.JTextPane titulo;
     // End of variables declaration//GEN-END:variables
 }

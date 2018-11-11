@@ -23,7 +23,7 @@ public class Registrar extends javax.swing.JFrame {
         this.sistema = sistema;
         this.listaJugadores = sistema.getListaJugadores();
         this.listaAlias = crearListaAlias(sistema);
-        this.jList1 = new JList(listaAlias.toArray());
+        this.jlistJugadores = new JList(listaAlias.toArray());
         initComponents();
     }
 
@@ -46,57 +46,57 @@ public class Registrar extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
-        jTextField2 = new javax.swing.JTextField();
-        jTextField3 = new javax.swing.JTextField();
-        jTextField4 = new javax.swing.JTextField();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
+        jlistJugadores = new javax.swing.JList<>();
+        textoNombre = new javax.swing.JTextField();
+        textoAlias = new javax.swing.JTextField();
+        textoEdad = new javax.swing.JTextField();
+        labelNombre = new javax.swing.JLabel();
+        labelAlias = new javax.swing.JLabel();
+        labelEdad = new javax.swing.JLabel();
+        botonEnter = new javax.swing.JButton();
         jScrollPane3 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        titulo = new javax.swing.JTextPane();
         jScrollPane5 = new javax.swing.JScrollPane();
-        jTextPane2 = new javax.swing.JTextPane();
+        tituloLista = new javax.swing.JTextPane();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+        jlistJugadores.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
             public String getElementAt(int i) { return strings[i]; }
         });
-        jScrollPane1.setViewportView(jList1);
+        jScrollPane1.setViewportView(jlistJugadores);
 
-        jTextField2.setText("Nombre");
-        jTextField2.addActionListener(new java.awt.event.ActionListener() {
+        textoNombre.setText("Nombre");
+        textoNombre.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jTextField2ActionPerformed(evt);
+                textoNombreActionPerformed(evt);
             }
         });
 
-        jTextField3.setText("Alias");
+        textoAlias.setText("Alias");
 
-        jTextField4.setText("Edad");
+        textoEdad.setText("Edad");
 
-        jLabel1.setText("Nombre");
+        labelNombre.setText("Nombre");
 
-        jLabel2.setText("Alias");
+        labelAlias.setText("Alias");
 
-        jLabel3.setText("Edad");
+        labelEdad.setText("Edad");
 
-        jButton1.setText("ENTER");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        botonEnter.setText("ENTER");
+        botonEnter.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                botonEnterActionPerformed(evt);
             }
         });
 
-        jTextPane1.setText("Registrar jugadores");
-        jScrollPane3.setViewportView(jTextPane1);
+        titulo.setText("Registrar jugadores");
+        jScrollPane3.setViewportView(titulo);
 
-        jTextPane2.setText("Lista de jugadores");
-        jScrollPane5.setViewportView(jTextPane2);
+        tituloLista.setText("Lista de jugadores");
+        jScrollPane5.setViewportView(tituloLista);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -106,7 +106,7 @@ public class Registrar extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGap(313, 313, 313)
-                        .addComponent(jButton1))
+                        .addComponent(botonEnter))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(277, 277, 277)
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 186, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -115,17 +115,17 @@ public class Registrar extends javax.swing.JFrame {
                 .addGap(139, 139, 139)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
+                        .addComponent(labelEdad)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textoEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
+                        .addComponent(labelAlias)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(textoAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(labelNombre)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(textoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 238, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jScrollPane5)
@@ -146,40 +146,40 @@ public class Registrar extends javax.swing.JFrame {
                         .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(41, 41, 41)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel1))
+                            .addComponent(textoNombre, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelNombre))
                         .addGap(42, 42, 42)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jTextField3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jLabel2))))
+                            .addComponent(textoAlias, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(labelAlias))))
                 .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel3))
+                    .addComponent(textoEdad, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(labelEdad))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 31, Short.MAX_VALUE)
-                .addComponent(jButton1)
+                .addComponent(botonEnter)
                 .addGap(169, 169, 169))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void jTextField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jTextField2ActionPerformed
+    private void textoNombreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_textoNombreActionPerformed
 
-    }//GEN-LAST:event_jTextField2ActionPerformed
+    }//GEN-LAST:event_textoNombreActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void botonEnterActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_botonEnterActionPerformed
 
         boolean salir = false;
         while (!salir) {
-            if (jTextField2.getText().equals("") || jTextField3.getText().equals("") || jTextField2.getText().equals("")) {
+            if (textoNombre.getText().equals("") || textoAlias.getText().equals("") || textoNombre.getText().equals("")) {
                 System.out.println("Debe ingresar todos los valores ");
             } else {
                 Jugador unJugador = new Jugador();
-                unJugador.setNombre(jTextField2.getText());
-                unJugador.setAlias((jTextField3).getText());
-                unJugador.setEdad(Integer.parseInt(jTextField4.getText()));
-                if (!listaAlias.contains(jTextField3.getText())) {
+                unJugador.setNombre(textoNombre.getText());
+                unJugador.setAlias((textoAlias).getText());
+                unJugador.setEdad(Integer.parseInt(textoEdad.getText()));
+                if (!listaAlias.contains(textoAlias.getText())) {
                     sistema.getListaJugadores().add(unJugador);
                     System.out.println("Jugador agregado con exito");
                     salir = true;
@@ -189,7 +189,7 @@ public class Registrar extends javax.swing.JFrame {
                 }
             }
         }
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_botonEnterActionPerformed
 
     public static void main(String args[]) {
 
@@ -202,18 +202,18 @@ public class Registrar extends javax.swing.JFrame {
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JList<String> jList1;
+    private javax.swing.JButton botonEnter;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane5;
-    private javax.swing.JTextField jTextField2;
-    private javax.swing.JTextField jTextField3;
-    private javax.swing.JTextField jTextField4;
-    private javax.swing.JTextPane jTextPane1;
-    private javax.swing.JTextPane jTextPane2;
+    private javax.swing.JList<String> jlistJugadores;
+    private javax.swing.JLabel labelAlias;
+    private javax.swing.JLabel labelEdad;
+    private javax.swing.JLabel labelNombre;
+    private javax.swing.JTextField textoAlias;
+    private javax.swing.JTextField textoEdad;
+    private javax.swing.JTextField textoNombre;
+    private javax.swing.JTextPane titulo;
+    private javax.swing.JTextPane tituloLista;
     // End of variables declaration//GEN-END:variables
 }

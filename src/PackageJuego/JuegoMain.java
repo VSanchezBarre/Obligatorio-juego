@@ -7,15 +7,45 @@ import java.util.ArrayList;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.awt.*;
+import java.io.BufferedWriter;
+import java.io.File;
 import javax.swing.*;
 import paqueteInterfaz.MenuPrincipal;
 
 public class JuegoMain {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
+        String fileSeparator = System.getProperty("file.separator");
+
+        //absolute file name with path
+        String absoluteFilePath = fileSeparator + "Users" + fileSeparator + "ValentinAdmin" + fileSeparator + "Documents" + fileSeparator + "NetBeansProjects" + fileSeparator + "ObligatorioJuego" + fileSeparator + "file.txt";
+        File file = new File(absoluteFilePath);
+        if (file.createNewFile()) {
+            System.out.println(absoluteFilePath + " File Created");
+        } else {
+            System.out.println("File " + absoluteFilePath + " already exists");
+        }
+
+        //file name only
+        file = new File("file.txt");
+        if (file.createNewFile()) {
+            System.out.println("file.txt File Created in Project root directory");
+        } else {
+            System.out.println("File file.txt already exists in project root directory");
+        }
+
+        //relative path
+        //String relativePath = "C:\\Users\\ValentinAdmin\\Documents\\NetBeansProjects\\ObligatorioJuego" + fileSeparator + "file.txt";
+        //file = new File(relativePath);
+        //if (file.createNewFile()) {
+        //    System.out.println(relativePath + " File Created in Project root directory");
+        //} else {
+        //    System.out.println("File " + relativePath + " already exists in project root directory");
+        //}
         Sistema sistema = new Sistema();
         iniciarMenu(sistema);
         MenuPrincipal menu = new MenuPrincipal(sistema);
+
     }
 
     private static void iniciarMenu(Sistema sistema) {
@@ -134,7 +164,7 @@ public class JuegoMain {
 
     }
 
-    public static Posibles movimiento(int[][] unTablero, int[] fichasiinvalidas, int[] fichasjinvalidas, int color, int[] fichasvalidas, int[] fichasjvalidas, Ficha ficha, Partida partida,Boolean verParm) {
+    public static Posibles movimiento(int[][] unTablero, int[] fichasiinvalidas, int[] fichasjinvalidas, int color, int[] fichasvalidas, int[] fichasjvalidas, Ficha ficha, Partida partida, Boolean verParm) {
         boolean salir = false;
         int[][] tablero = unTablero;
         boolean ver = verParm;
@@ -170,7 +200,6 @@ public class JuegoMain {
                         salir = true;
                     }
 
-                   
                     if (!pasar) {
                         if (in.length() == 1 && (!esx)) {
                             if ((in.equals("p"))) {
@@ -188,9 +217,8 @@ public class JuegoMain {
                 if (pasar) {
                     if (in.length() == 1 && (!esx)) {
                         if (in.equals("p")) {
-                            esPosible=false;
-                            
-                            
+                            esPosible = false;
+
                         } else {
                             System.out.println("Valor no valido, ingrese denuevo");
                         }
@@ -316,7 +344,6 @@ public class JuegoMain {
                         salir = true;
                     }
 
-                   
                     if (!pasar) {
                         if (in.length() == 1 && (!esx)) {
                             if ((in.equals("p"))) {
@@ -334,9 +361,8 @@ public class JuegoMain {
                 if (pasar) {
                     if (in.length() == 1 && (!esx)) {
                         if (in.equals("p")) {
-                            turno =false;
-                            
-                            
+                            turno = false;
+
                         } else {
                             System.out.println("Valor no valido, ingrese denuevo");
                         }
@@ -434,10 +460,10 @@ public class JuegoMain {
             }
 
         }
-        Posibles unPosibles = new Posibles(salir,fichasPosibles,tablero,contador);
+        Posibles unPosibles = new Posibles(salir, fichasPosibles, tablero, contador);
         unPosibles.setVer(ver);
         return unPosibles;
-        
+
     }
 
     public static Jugador[] elegirJugador(Sistema sistema, String color1, String color2) {
@@ -610,14 +636,14 @@ public class JuegoMain {
             boolean salir = false;
             while (contador < maximo && !salir) {
                 imprimir(tablero, ver);
-                Posibles unPosibles = movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida,ver);
+                Posibles unPosibles = movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida, ver);
                 salir = unPosibles.getEsPosible();
                 tablero = unPosibles.getMatriz();
                 ver = unPosibles.getVer();
                 contador++;
                 if (contador < maximo && !salir) {
                     imprimir(tablero, ver);
-                    Posibles unPosible2 = movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida,ver);
+                    Posibles unPosible2 = movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida, ver);
                     tablero = unPosible2.getMatriz();
                     salir = unPosible2.getEsPosible();
                     ver = unPosible2.getVer();
@@ -631,7 +657,7 @@ public class JuegoMain {
             boolean seguir = true;
             while (nopaso) {
                 imprimir(tablero, ver);
-                Posibles esPosible = movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida,ver);
+                Posibles esPosible = movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida, ver);
                 tablero = esPosible.getMatriz();
                 ver = esPosible.getVer();
                 nopaso = verificarPaso(tablero, jugadorRojo, jugadorAzul);
@@ -641,7 +667,7 @@ public class JuegoMain {
                 imprimir(tablero, ver);
                 seguir = nopaso;
                 if (seguir) {
-                    Posibles esPosible2 = movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida,ver);
+                    Posibles esPosible2 = movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida, ver);
                     tablero = esPosible2.getMatriz();
                     ver = esPosible2.getVer();
                     nopaso = verificarPaso(tablero, jugadorRojo, jugadorAzul);
@@ -658,14 +684,14 @@ public class JuegoMain {
                 int rojaspasadas = 0;
                 int azulespasadas = 0;
                 imprimir(tablero, ver);
-                Posibles esPosible = movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida,ver);
+                Posibles esPosible = movimiento(tablero, rojas.getPosicionesi(), rojas.getPosicionesj(), 1, azules.getPosicionesi(), azules.getPosicionesj(), azules, partida, ver);
                 tablero = esPosible.getMatriz();
                 seguir = esPosible.getEsPosible();
                 ver = esPosible.getVer();
                 imprimir(tablero, ver);
                 jugadorGanador = ganador(jugadorRojo, jugadorAzul, 3, tablero);
                 if (!seguir) {
-                    Posibles esPosible2 = movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida,ver);
+                    Posibles esPosible2 = movimiento(tablero, azules.getPosicionesi(), azules.getPosicionesj(), 0, rojas.getPosicionesi(), rojas.getPosicionesj(), rojas, partida, ver);
                     tablero = esPosible2.getMatriz();
                     seguir = esPosible2.getEsPosible();
                     ver = esPosible2.getVer();
@@ -1023,18 +1049,17 @@ public class JuegoMain {
         }
 
     }
-    
-    
-    public static void Frame (){
-       Frame f = new Frame("Tutorialspoint");
-      Component text = new TextArea("Sairamkrishna Mamamahe");
-      Component button = new Button("Button");
-      f.add(text, BorderLayout.NORTH);
-      f.add(button, BorderLayout.SOUTH);
-      int width = 300;
-      int height = 300;
-      f.setSize(width, height);
-      f.setVisible(true);
+
+    public static void Frame() {
+        Frame f = new Frame("Tutorialspoint");
+        Component text = new TextArea("Sairamkrishna Mamamahe");
+        Component button = new Button("Button");
+        f.add(text, BorderLayout.NORTH);
+        f.add(button, BorderLayout.SOUTH);
+        int width = 300;
+        int height = 300;
+        f.setSize(width, height);
+        f.setVisible(true);
     }
 
 }
