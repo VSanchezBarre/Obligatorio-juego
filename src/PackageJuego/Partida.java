@@ -1,3 +1,4 @@
+//author Valentin Sanchez Ignacio Pigatto
 package PackageJuego;
 
 import java.util.ArrayList;

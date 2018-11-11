@@ -1,4 +1,4 @@
-
+//author Valentin Sanchez Ignacio Pigatto
 package PackageJuego;
 import java.util.ArrayList;
 
@@ -11,6 +11,7 @@ public class Sistema {
     public Sistema() {
         this.listaJugadores = new ArrayList<>();
         this.listaPartidas = new ArrayList<>();
+        this.listaFichas = new ArrayList<>();
 
     }
 
@@ -39,9 +40,11 @@ public class Sistema {
     }
     
     
-    public void agregarJugador(String nombre, String alias, int edad) {
-        Jugador jugador = new Jugador(nombre,alias,edad);
+    public void agregarJugador(String nombre, String alias, int edad,int partidasGanadas,Ficha fichas) {
+        Jugador jugador = new Jugador(nombre,alias,edad,partidasGanadas,fichas);
+        if(!alias.equals("Empate")){
         listaJugadores.add(jugador);
+        }
     }
     public boolean existeAlias(String alias) {
         Jugador auxPlayer = new Jugador();

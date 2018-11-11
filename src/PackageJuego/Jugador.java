@@ -1,4 +1,4 @@
-
+//author Valentin Sanchez Ignacio Pigatto
 package PackageJuego;
 
 public class Jugador implements Comparable{
@@ -16,10 +16,12 @@ public class Jugador implements Comparable{
         return fichasJugador;
     }
 
-   public Jugador(String name, String alias, int edad) {
+    public Jugador(String nombre, String alias, int edad, int partidasGanadas, Ficha fichasJugador) {
+        this.nombre = nombre;
         this.alias = alias;
-        this.nombre=name;
-        this.edad=edad;
+        this.edad = edad;
+        this.partidasGanadas = partidasGanadas;
+        this.fichasJugador = fichasJugador;
     }
    
    
@@ -36,6 +38,8 @@ public class Jugador implements Comparable{
        this.alias="";
        this.nombre="";
        this.edad=0;
+       this.fichasJugador= new Ficha();
+       this.partidasGanadas=0;
        
    }
     public String getNombre() {
@@ -65,7 +69,7 @@ public class Jugador implements Comparable{
     
     @Override
     public String toString() {
-        return "Jugador:" + "Nombre=" + nombre + ", Alias=" + alias + "Partidas ganadas="+partidasGanadas;
+        return "Jugador :" +" "+ "Nombre = " + nombre + ", Alias = " + alias +" "+ " Partidas ganadas = "+partidasGanadas;
     }
     
     public boolean equals (Object obj) {

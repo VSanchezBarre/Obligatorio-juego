@@ -1,4 +1,4 @@
-
+//author Valentin Sanchez Ignacio Pigatto
 package PackageJuego;
 
 public class Ficha {
@@ -22,6 +22,11 @@ public class Ficha {
         this.posicionesj = posicionesj;
        
     }
+    public Ficha(){
+        this.color="";
+        this.posicionesi=new int[8];
+        this.posicionesj=new int[8];
+    }
 
     public void setColor(String color) {
         this.color = color;
@@ -34,8 +39,6 @@ public class Ficha {
     public void setPosicionesj(int[] posicionesj) {
         this.posicionesj = posicionesj;
     }
-
-
 
 
 }
